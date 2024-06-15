@@ -1,9 +1,12 @@
 package postgres
 
 import (
+	"boltenut/logger"
 	"context"
 	"fmt"
 	"github.com/jackc/pgx/v5"
+
+	"github.com/jackc/pgx/v5/tracelog"
 	"os"
 )
 
@@ -18,7 +21,9 @@ func ConnectPostgres() *pgx.Conn {
 	dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
 		dbUser, dbPassword, dbHost, dbPort, dbName)
 
-	conn, err := pgx.Connect(context.Background(), dsn)
+	connConfig, _ := pgx.ParseConfig(dsn)
+	connConfig.Tracer = &tracelog.TraceLog{Logger: logger.Logger{}, LogLevel: tracelog.LogLevelDebug}
+	conn, err := pgx.ConnectConfig(context.Background(), connConfig)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)
