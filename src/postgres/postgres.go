@@ -10,6 +10,7 @@ import (
 	"os"
 )
 
+// ConnectPostgres инициализирует соединение с базой данных
 func ConnectPostgres() *pgx.Conn {
 	dbHost, dbPort, dbUser, dbPassword, dbName :=
 		os.Getenv("DATABASE_HOST"),

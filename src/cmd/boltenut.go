@@ -103,12 +103,13 @@ func main() {
 		S_middle_max := D2_max - d2_min
 		S_middle_min := D2_min - d2_max
 
-		S_inner_min := D1_min - d2_max
+		S_inner_min := D1_min - d1_max
 		S_inner_max := 0
 
 		T := S_middle_max - S_middle_min
 
 		ctx.JSON(http.StatusOK, gin.H{
+			"P":                          step,
 			"d2":                         d2,
 			"d1":                         d1,
 			"d_w_diameters_average_bolt": d_w_diameters_average_bolt,
